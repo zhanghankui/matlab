@@ -1,0 +1,18 @@
+close all;
+clear all;
+wc  = 1000;
+num = [1*(wc)^4];
+den = [1 2.61312593*(wc) 3.41421356*(wc)^2 2.61312593*(wc)^3 1*(wc)^4];
+sys1 = tf(num,den);
+num = [1];
+den = [1 2.61312593 3.41421356 2.61312593 1];
+sys2 = tf(num,den);
+figure(1);
+subplot(211);
+bode(sys1);
+% subplot(312);
+% bode(sys2);
+sysz1 = c2d(sys1,0.001,'z');
+[num,den]=tfdata(sysz1,'v'); 
+subplot(212);
+bode(sysz1);
