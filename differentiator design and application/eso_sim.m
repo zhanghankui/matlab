@@ -4,7 +4,7 @@ close all;
 
 h = 0.1;%sampling time
 delta = 8*h;
-wo = 0.45;
+wo = 0.5;
 beta01 = 3*wo;
 beta02 = 3*wo*wo;
 beta03 = wo^3;
@@ -14,13 +14,13 @@ beta03 = wo^3;
 r1_1 = 0;r2_1 = 0;r3_1 = 0;
 r_1 = 0;
 
-for k = 1:1:3000
+for k = 1:1:5000
     time(k) = k*h;
     
-    r0(k) = fix(50*sin(2*pi*k*h*0.01));
-    n(k) = fix(50*0.05*rands(1));%noise
+    r0(k) = fix(100*sin(2*pi*k*h*0.01));
+    n(k) = fix(100*0.05*rands(1));%noise
     r(k) = r0(k)+n(k);
-    dr0(k) = fix(50*2*pi*0.01*cos(2*pi*k*h*0.01));
+    dr0(k) = fix(100*2*pi*0.01*cos(2*pi*k*h*0.01));
  
     
     e = r1_1 - r(k);
@@ -37,7 +37,7 @@ for k = 1:1:3000
     r3_1 = r3(k);
     
     if(k>100)
-        dr(k) = (r(k)-r(k-100))/h/100;
+        dr(k) = (r(k)-r(k-10))/h/10;
     else
         dr(k) = 0;
         %dr(k) = (r(k)-r_1)/h;%Ö±½Ó²î·Ö
