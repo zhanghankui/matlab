@@ -2,39 +2,39 @@
 clear all;
 close all;
 
-h = 0.001;%sampling time
+h = 0.1;%sampling time
 delta = 8*h;
-wo = 50;
-% beta01 = 3*wo;
-% beta02 = 3*wo*wo;
-% beta03 = wo^3;
+wo = 0.45;
+beta01 = 3*wo;
+beta02 = 3*wo*wo;
+beta03 = wo^3;
 
- beta01 = 2*wo;
- beta02 = wo*wo;
+%  beta01 = 2*wo;
+%  beta02 = wo*wo;
 r1_1 = 0;r2_1 = 0;r3_1 = 0;
 r_1 = 0;
 
 for k = 1:1:3000
     time(k) = k*h;
     
-    r0(k) = fix(100*sin(2*pi*k*h));
-    n(k) = fix(100*0.05*rands(1));%noise
+    r0(k) = fix(50*sin(2*pi*k*h*0.01));
+    n(k) = fix(50*0.05*rands(1));%noise
     r(k) = r0(k)+n(k);
-    dr0(k) = fix(100*2*pi*cos(2*pi*k*h));
+    dr0(k) = fix(50*2*pi*0.01*cos(2*pi*k*h*0.01));
  
     
     e = r1_1 - r(k);
     r1(k) = r1_1 + h*(r2_1-beta01*e);
 %    r2(k) = r2_1 + h*(r3_1-beta02*fal(e,0.5,delta));
 %    r3(k) = r3_1 - h*beta03*fal(e,0.25,delta);
-    r2(k) = r2_1 - h*beta02*fal(e,1.2,delta);
-   
+    r2(k) = r2_1 + h*(r3_1-beta02*e);
+   r3(k) = r3_1 - h*beta03*e;
    
    
 
     r1_1 = r1(k);
     r2_1 = r2(k);
-%     r3_1 = r3(k);
+    r3_1 = r3(k);
     
     if(k>100)
         dr(k) = (r(k)-r(k-100))/h/100;

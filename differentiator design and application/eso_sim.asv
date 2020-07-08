@@ -2,9 +2,9 @@
 clear all;
 close all;
 
-h = 0.001;%sampling time
+h = 0.1;%sampling time
 delta = 8*h;
-wo = 200;
+wo = 0.5;
 % beta01 = 3*wo;
 % beta02 = 3*wo*wo;
 % beta03 = wo^3;
@@ -17,18 +17,18 @@ r_1 = 0;
 for k = 1:1:3000
     time(k) = k*h;
     
-    r0(k) = fix(10000*sin(2*pi*k*h));
-    n(k) = fix(10000*0.05*rands(1));%noise
+    r0(k) = fix(1000*sin(2*pi*k*h*0.01));
+    n(k) = fix(1000*0.1*rands(1));%noise
     r(k) = r0(k)+n(k);
-    dr0(k) = fix(10000*2*pi*cos(2*pi*k*h));
+    dr0(k) = fix(1000*2*pi*0.01*cos(2*pi*k*h*0.01));
  
     
     e = r1_1 - r(k);
     r1(k) = r1_1 + h*(r2_1-beta01*e);
 %    r2(k) = r2_1 + h*(r3_1-beta02*fal(e,0.5,delta));
 %    r3(k) = r3_1 - h*beta03*fal(e,0.25,delta);
-    r2(k) = r2_1 - h*beta02*fal(e,0.5,delta);
-   
+    r2(k) = r2_1 + h*(r3_1-beta02*e;
+   r3(k) = r3_1 - h*beta03*fal(e,0.25,delta);
    
    
 
