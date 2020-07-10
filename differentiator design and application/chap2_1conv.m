@@ -1,5 +1,4 @@
-%Levant Î¢·ÖÆ÷º¯Êý
-function[sys,x0,str,ts] = Differentiator(t,x,u,flag)
+function [sys,x0,str,ts] = s_function(t,x,u,flag)
 switch flag,
     case 0,
         [sys,x0,str,ts] = mdlInitializeSizes;
@@ -8,32 +7,30 @@ switch flag,
     case 3,
         sys = mdlOutputs(t,x,u);
     case {2,4,9}
-        sys=[];
+        sys = [];
     otherwise
         error(['Unhandled flag=',num2str(flag)]);
 end
-function[sys,x0,str,ts]=mdlInitializeSizes
+
+function [sys,x0,str,ts] = mdlInitializeSizes
 sizes = simsizes;
-sizes.NumContStates = 2;
+sizes.NumContStates = 3;
 sizes.NumDiscStates = 0;
-sizes.NumOutputs = 2;
-sizes.NumInputs = 1;
+sizes.NumOutputs = 3;
+sizes.NumInputs = 0;
 sizes.DirFeedthrough = 1;
 sizes.NumSampleTimes = 1;
 sys = simsizes(sizes);
-x0 = [0 0];
+x0 = [2 2 2];
 str = [];
 ts=[0 0];
 function sys = mdlDerivatives(t,x,u)
-%k1=1,k2=2;alfa=0.15
-vt=u(1);
-e = x(1)-vt;
-
-R = 25;a0 = 0.1;a1 = 0.015;b0=0.3;b1=0.015;m=1;n=2;
-q=m/n;
-
-sys(1) = x(2);
-sys(2) = -R^2*(a0*e+a1*(abs(e)^q*sign(e)+b0*x(2)/R+b1*(abs(x(2)/R))^q*sign(x(2)));
-
+alfa = 0.5;
+sys(1) = -2*(x(1))^3;% asympotically convergent dx = -2(x^3)
+sys(2) = -2*x(2);    % exponentially convergent dx = -2x
+sys(3) = -2*(abs(x(3)))^alfa*sign(x(3));% finite--time convergent
 function sys = mdlOutputs(t,x,u)
-sys = x;
+sys(1) = x(1);
+sys(2) = x(2);
+sys(3) = x(3);
+
